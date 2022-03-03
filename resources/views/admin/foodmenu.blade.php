@@ -35,6 +35,28 @@
                     <input type="submit" value="save" >
                 </div>
             </form>
+
+            <div>
+                <table bgcolor="black">
+                    <tr>
+                        <th style="padding: 30px">Food Name</th>
+                        <th style="padding: 30px">Price</th>
+                        <th style="padding: 30px">Description</th>
+                        <th style="padding: 30px">Image</th>
+                        <th style="padding: 30px">Action</th>
+                    </tr>
+                  
+                    @foreach ($data as $item)
+                        <tr align="center">
+                            <td>{{ $item->title }}</td>
+                            <td>{{ $item->price }}</td>
+                            <td>{{ $item->description }}</td>
+                            <td><img height="200px" width="200px" src="/foodimage/{{ $item->image }}" alt=""></td>
+                            <td><a href="{{ url('/deletemenu',$item->id) }}">Delete</a><a href="{{ url('/updatemenu',$item->id) }}">Update</a></td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
         </div>
     </div>
 
