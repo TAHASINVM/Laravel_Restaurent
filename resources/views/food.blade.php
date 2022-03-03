@@ -15,18 +15,23 @@
                 <div class="owl-menu-item owl-carousel">
 
                     @foreach ($data as $item)
-                        <div class="item">
-                            <div style="background-image: url('/foodimage/{{ $item->image }}');background-size:cover;" class='card'>
-                                <div class="price"><h6>${{ $item->price }}</h6></div>
-                                <div class='info'>
-                                <h1 class='title'>{{ $item->title}}</h1>
-                                <p class='description'>{{ $item->description }}</p>
-                                <div class="main-text-button">
-                                    <div class="scroll-to-section"><a href="#reservation">Make Reservation <i class="fa fa-angle-down"></i></a></div>
+                        <form action="{{ url('/addcart',$item->id) }}" method="POST">
+                            @csrf
+                            <div class="item">
+                                <div style="background-image: url('/foodimage/{{ $item->image }}');background-size:cover;" class='card'>
+                                    <div class="price"><h6>${{ $item->price }}</h6></div>
+                                    <div class='info'>
+                                    <h1 class='title'>{{ $item->title}}</h1>
+                                    <p class='description'>{{ $item->description }}</p>
+                                    <div class="main-text-button">
+                                        <div class="scroll-to-section"><a href="#reservation">Make Reservation <i class="fa fa-angle-down"></i></a></div>
+                                    </div>
+                                    </div>
                                 </div>
-                                </div>
+                                <input type="number" name="quantity" min="1" style="width: 80px" id="">
+                                <input type="submit" value="add cart">
                             </div>
-                        </div>
+                        </form>
                     @endforeach
 
                    

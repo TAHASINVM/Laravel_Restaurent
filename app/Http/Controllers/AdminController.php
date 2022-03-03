@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Food;
+use App\Models\Reservation;
+use App\Models\Foodchef;
 
 class AdminController extends Controller
 {
@@ -53,6 +55,61 @@ class AdminController extends Controller
             $data->description=$request->description;
             $data->save();
 
+        return redirect()->back();
+    }
+    public function reservation(Request $request){
+        $data= new Reservation;
+        $data->name=$request->name;        
+        $data->email=$request->email;        
+        $data->phone=$request->phone;        
+        $data->guest=$request->guest;        
+        $data->date=$request->date;        
+        $data->time=$request->time;        
+        $data->message=$request->message;
+        $data->save();        
+        return redirect()->back();
+    }
+    public function viewreservation(){
+        $data=Reservation::all();       
+        return view('admin.adminreservation',compact('data'));
+    }
+    public function viewchef(){
+        $data=Foodchef::all();       
+        return view('admin.adminchef',compact('data'));
+    }
+    public function uploadchef(Request $request){
+        $data=new Foodchef;       
+        $image=$request->image;
+        $imagename=time().'.'.$image->getClientOriginalExtension();
+            $request->image->move('chefimage',$imagename);
+            $data->image=$imagename;
+            $data->name=$request->name;
+            $data->speciality=$request->speciality;
+            $data->save();
+
+
+        return redirect()->back();
+    }
+    public function updatechef($id){
+        $data=Foodchef::find($id);       
+        return view('admin.updatechef',compact('data'));
+    }
+    public function deletechef($id){
+        $data=Foodchef::find($id);
+        $data->delete();       
+        return redirect()->back();
+    }
+    public function updatefoodchef(Request $request , $id){
+        $data=Foodchef::find($id);
+        $image=$request->image;
+        if($image){
+            $imagename=time().'.'.$image->getClientOriginalExtension();
+            $request->image->move('chefimage',$imagename);
+            $data->image=$imagename;
+        }
+            $data->name=$request->name;
+            $data->speciality=$request->speciality;
+        $data->save();
         return redirect()->back();
     }
 }
