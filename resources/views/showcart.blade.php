@@ -29,7 +29,7 @@ https://templatemo.com/tm-558-klassy-cafe
     <link rel="stylesheet" href="assets/css/owl-carousel.css">
 
     <link rel="stylesheet" href="assets/css/lightbox.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -130,22 +130,57 @@ https://templatemo.com/tm-558-klassy-cafe
                 <th style="padding: 30px">Quantity</th>
                 <th style="padding: 30px">Action</th>
             </tr>
-
+            <form action="{{ url('/orderconfirm') }}" method="POST">
+                @csrf
             @foreach ($data as $item)
                 <tr>
-                    <td>{{ $item->title }}</td>
-                    <td>{{ $item->price }}</td>
-                    <td>{{ $item->quantity }}</td>
-                    @foreach ($data2 as $item)
-                        <td><a href="{{ url('/remove',$item->id) }}"class="btn btn-warning">Remove</a></td>
-                    @endforeach
+                    <td>
+                        {{ $item->title }}
+                        <input type="text" name="foodname[]" value="{{ $item->title }}" hidden>
+                    </td>
+                    <td>
+                        {{ $item->price }}
+                        <input type="text" name="price[]" value="{{ $item->price }}" hidden>
+                    </td>
+                    <td>
+                        {{ $item->quantity }}
+                        <input type="text" name="quantity[]" value="{{ $item->quantity }}" hidden>
+                    </td>
                 </tr>
             @endforeach
-
+            @foreach ($data2 as $item)
+                <td><a href="{{ url('/remove',$item->id) }}"class="btn btn-warning">Remove</a></td>
+            @endforeach
 
         </table>
+        
+        <div align="center" style="padding: 30px;">
+            <button class="btn btn-primary" type="button" id="order">Order Now</button>
+        </div>
+
+        <div align="center" style="padding: 10px;display:none" id="appearance">
+            <div style="padding:10px">
+                <label for="">Name</label>
+                <input type="text" name="name" placeholder="name">
+            </div>
+            <div style="padding:10px">
+                <label for="">Phone</label>
+                <input type="number" name="phone" placeholder="Phone Number">
+            </div>
+            <div style="padding:10px">
+                <label for="">Address</label>
+                <input type="text" name="address" placeholder="Address">
+            </div>
+            <div style="padding:10px">
+                <input type="submit" value="Order Confirm" class="btn btn-success">
+                <button class="btn btn-danger" type="button" id="close">Close</button>
+            </div>
+        </div>
+        </form>
     </div>
     
+
+
 
     <script src="assets/js/jquery-2.1.0.min.js"></script>
 
@@ -169,19 +204,26 @@ https://templatemo.com/tm-558-klassy-cafe
     <script src="assets/js/custom.js"></script>
     <script>
 
-        $(function() {
-            var selectedClass = "";
-            $("p").click(function(){
-            selectedClass = $(this).attr("data-rel");
-            $("#portfolio").fadeTo(50, 0.1);
-                $("#portfolio div").not("."+selectedClass).fadeOut();
-            setTimeout(function() {
-              $("."+selectedClass).fadeIn();
-              $("#portfolio").fadeTo(50, 1);
-            }, 500);
+        // $(function() {
+        //     var selectedClass = "";
+        //     $("p").click(function(){
+        //     selectedClass = $(this).attr("data-rel");
+        //     $("#portfolio").fadeTo(50, 0.1);
+        //         $("#portfolio div").not("."+selectedClass).fadeOut();
+        //     setTimeout(function() {
+        //       $("."+selectedClass).fadeIn();
+        //       $("#portfolio").fadeTo(50, 1);
+        //     }, 500);
                 
-            });
-        });
+        //     });
+        // });
+
+        $('#order').click(function(){
+            $('#appearance').show()
+        })
+        $('#close').click(function(){
+            $('#appearance').hide()
+        })
 
     </script>
   </body>
